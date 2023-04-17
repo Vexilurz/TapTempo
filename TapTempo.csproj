@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tempo.cs" />
     <EmbeddedResource Include="fmMain.resx">
       <DependentUpon>fmMain.cs</DependentUpon>
     </EmbeddedResource>
