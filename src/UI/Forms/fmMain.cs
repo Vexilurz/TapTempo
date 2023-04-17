@@ -17,9 +17,19 @@ namespace TapTempo
     {
       InitializeComponent();
 
-      int[] counts = new int[4] { 4, 8, 16, 32 };
+      int[] counts = new int[5] { 2, 4, 8, 16, 32 };
       tempo = new Tempo(counts);
       tempo.ListChangedEvent += Tempo_ListChangedEvent;
+      tempo.CalculationsChangedEvent += Tempo_CalculationsChangedEvent;
+    }
+
+    private void Tempo_CalculationsChangedEvent(Dictionary<int, double> tempos)
+    {
+      listCalculations.Items.Clear();
+      foreach (var t in tempos) 
+      {
+        listCalculations.Items.Add($"{t.Key:d2}: {t.Value:f2}");
+      }
     }
 
     private void Tempo_ListChangedEvent(List<DateTime> taps)
@@ -34,9 +44,27 @@ namespace TapTempo
       }
     }
 
+    DateTime lastClick;
+
     private void bnTap_Click(object sender, EventArgs e)
     {
+      lastClick = DateTime.Now;
+      timerCheck.Enabled = true;
       tempo.AddNewTap();
+    }
+
+    private void bnClear_Click(object sender, EventArgs e)
+    {
+      tempo.Clear();
+    }
+
+    private void timerCheck_Tick(object sender, EventArgs e)
+    {
+      if ((DateTime.Now - lastClick).TotalMilliseconds > 2000) 
+      {
+        tempo.Clear();
+        timerCheck.Enabled = false;
+      }
     }
   }
 }

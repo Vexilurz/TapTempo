@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\TempoDTO.cs" />
     <Compile Include="src\UI\Forms\fmMain.cs">
       <SubType>Form</SubType>
     </Compile>
