@@ -25,10 +25,12 @@ namespace TapTempo
     private void Tempo_ListChangedEvent(List<DateTime> taps)
     {
       listLeft.Items.Clear();
-      for (int i = 0; i < taps.Count; i++) 
+      for (int i = taps.Count-1; i >= 0; i--) 
       {
         var t = taps[i];
-        listLeft.Items.Add(t.ToString($"[{i:d2}] HH:mm:ss.ffff"));
+        var delta = taps[taps.Count-1] - t;
+        var sdelta = delta.ToString(@"ss\.ffff");
+        listLeft.Items.Add(t.ToString($"[{i:d2}] HH:mm:ss.ffff (+{sdelta})"));
       }
     }
 

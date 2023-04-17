@@ -66,9 +66,9 @@
       // 
       this.listLeft.Dock = System.Windows.Forms.DockStyle.Right;
       this.listLeft.FormattingEnabled = true;
-      this.listLeft.Location = new System.Drawing.Point(347, 0);
+      this.listLeft.Location = new System.Drawing.Point(294, 0);
       this.listLeft.Name = "listLeft";
-      this.listLeft.Size = new System.Drawing.Size(134, 303);
+      this.listLeft.Size = new System.Drawing.Size(187, 303);
       this.listLeft.TabIndex = 2;
       // 
       // fmMain
