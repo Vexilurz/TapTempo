@@ -36,7 +36,7 @@ namespace TapTempo
       ListChangedEvent?.Invoke(taps);
     }
 
-    List<double> getListFromTapsCount(int tapsCount)
+    List<double> getListViaTapsCount(int tapsCount)
     {
       foreach (var t in tempos)
       {
@@ -65,12 +65,12 @@ namespace TapTempo
 
     void Calculate()
     {
-      for (int i = 0; i < counts.Length; i++)
+      foreach(var c in counts)
       {        
-        var tempo = CalculateTempoFromLastTaps(counts[i]);
+        var tempo = CalculateTempoFromLastTaps(c);
         if (tempo != -1)
         {
-          var list = getListFromTapsCount(counts[i]);
+          var list = getListViaTapsCount(c);
           list.Add(tempo);
         }
       }

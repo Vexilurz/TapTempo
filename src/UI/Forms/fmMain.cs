@@ -60,6 +60,7 @@ namespace TapTempo
     {
       clicksCount = 0;
       tempo.Clear();
+      timerCheck.Enabled = false;
     }
 
     private void bnClear_Click(object sender, EventArgs e)
@@ -71,8 +72,7 @@ namespace TapTempo
     {
       if ((DateTime.Now - lastClick).TotalMilliseconds > 5000) 
       {
-        Clear();
-        timerCheck.Enabled = false;
+        Clear();        
       }
     }
   }
