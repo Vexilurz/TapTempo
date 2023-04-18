@@ -34,7 +34,6 @@ namespace TapTempo
 
     private void Tempo_ListChangedEvent(List<DateTime> taps)
     {
-      sbInfo.Text = $"Taps count: {taps.Count}";
       listLeft.Items.Clear();
       for (int i = taps.Count-1; i >= 0; i--) 
       {
@@ -46,24 +45,33 @@ namespace TapTempo
     }
 
     DateTime lastClick;
+    int clicksCount = 0;
 
     private void bnTap_Click(object sender, EventArgs e)
     {
+      clicksCount++;
+      sbInfo.Text = $"Taps count: {clicksCount}";
       lastClick = DateTime.Now;
       timerCheck.Enabled = true;
       tempo.AddNewTap();
     }
 
+    void Clear()
+    {
+      clicksCount = 0;
+      tempo.Clear();
+    }
+
     private void bnClear_Click(object sender, EventArgs e)
     {
-      tempo.Clear();
+      Clear();
     }
 
     private void timerCheck_Tick(object sender, EventArgs e)
     {
       if ((DateTime.Now - lastClick).TotalMilliseconds > 5000) 
       {
-        tempo.Clear();
+        Clear();
         timerCheck.Enabled = false;
       }
     }
