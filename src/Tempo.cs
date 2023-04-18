@@ -11,12 +11,12 @@ namespace TapTempo
     public delegate void ListChanged(List<DateTime> taps);
     public event ListChanged ListChangedEvent;
 
-    public delegate void CalculationsChanged(Dictionary<int, double> tempos);
-    public event CalculationsChanged CalculationsChangedEvent;
+    public delegate void CalculationsReady(List<string> tempos);
+    public event CalculationsReady CalculationsReadyEvent;
 
     private readonly int[] counts;
     private List<DateTime> taps;
-    private Dictionary<int, List<double>> tempos;
+    private List<TempoMemory> tempos;
 
     public Tempo(int[] counts)
     {
@@ -28,12 +28,21 @@ namespace TapTempo
     public void Clear()
     {
       taps = new List<DateTime>();
-      tempos = new Dictionary<int, List<double>>();
+      tempos = new List<TempoMemory>();
       for (int i = 0; i < counts.Length; i++)
       {
-        tempos.Add(counts[i], new List<double>());
+        tempos.Add(new TempoMemory(counts[i]));
       }
       ListChangedEvent?.Invoke(taps);
+    }
+
+    List<double> getListFromTapsCount(int tapsCount)
+    {
+      foreach (var t in tempos)
+      {
+        if (t.tapsCount == tapsCount) return t.tempoList;
+      }
+      return new List<double>();
     }
 
     public void AddNewTap()
@@ -45,41 +54,31 @@ namespace TapTempo
       }
       ListChangedEvent?.Invoke(taps);
 
-      var calculations = Calculate();
-      foreach (var c in calculations)
-      {
-        List<double> d = new List<double>();
-        tempos.TryGetValue(c.tapsCount, out d);
-        d.Add(c.tempo);
-      }
-      CalculationsChangedEvent?.Invoke(getAverage());
-    }
-
-    Dictionary<int, double> getAverage()
-    {
-      Dictionary<int, double> result = new Dictionary<int, double>();
+      Calculate();
+      List<string> list = new List<string>(); 
       foreach (var t in tempos)
       {
-        var avg = t.Value.Count > 0 ? t.Value.Average() : 0;        
-        result.Add(t.Key, avg);        
+        list.Add(t.ToString());
       }
-      return result;
+      CalculationsReadyEvent?.Invoke(list);
     }
 
-    List<TempoDTO> Calculate()
+    void Calculate()
     {
-      List<TempoDTO> result = new List<TempoDTO>();
       for (int i = 0; i < counts.Length; i++)
       {        
-        var calc = CalculateLastTaps(counts[i]);    
-        if (calc.tempo != -1) result.Add(calc);
+        var tempo = CalculateTempoFromLastTaps(counts[i]);
+        if (tempo != -1)
+        {
+          var list = getListFromTapsCount(counts[i]);
+          list.Add(tempo);
+        }
       }
-      return result;
     }
 
-    TempoDTO CalculateLastTaps(int count)
+    double CalculateTempoFromLastTaps(int count)
     {
-      TempoDTO result = new TempoDTO(count, -1);
+      double result = -1;
       if (taps.Count < count) return result;
 
       double avg = 0;
@@ -89,7 +88,7 @@ namespace TapTempo
         avg += delta.TotalMilliseconds;
       }
       avg /= count-1;
-      result.tempo = getTempoFromDelta(avg);
+      result = getTempoFromDelta(avg);
 
       return result;
     }

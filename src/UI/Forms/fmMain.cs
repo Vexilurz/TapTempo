@@ -17,23 +17,24 @@ namespace TapTempo
     {
       InitializeComponent();
 
-      int[] counts = new int[5] { 2, 4, 8, 16, 32 };
+      int[] counts = new int[6] { 2, 4, 8, 16, 32, 64 };
       tempo = new Tempo(counts);
       tempo.ListChangedEvent += Tempo_ListChangedEvent;
-      tempo.CalculationsChangedEvent += Tempo_CalculationsChangedEvent;
+      tempo.CalculationsReadyEvent += Tempo_CalculationsReadyEvent;
     }
 
-    private void Tempo_CalculationsChangedEvent(Dictionary<int, double> tempos)
+    private void Tempo_CalculationsReadyEvent(List<string> tempos)
     {
       listCalculations.Items.Clear();
       foreach (var t in tempos) 
       {
-        listCalculations.Items.Add($"{t.Key:d2}: {t.Value:f2}");
+        listCalculations.Items.Add(t);
       }
     }
 
     private void Tempo_ListChangedEvent(List<DateTime> taps)
     {
+      sbInfo.Text = $"Taps count: {taps.Count}";
       listLeft.Items.Clear();
       for (int i = taps.Count-1; i >= 0; i--) 
       {
