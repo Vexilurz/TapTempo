@@ -61,7 +61,7 @@ namespace TapTempo
 
     private void timerCheck_Tick(object sender, EventArgs e)
     {
-      if ((DateTime.Now - lastClick).TotalMilliseconds > 2000) 
+      if ((DateTime.Now - lastClick).TotalMilliseconds > 5000) 
       {
         tempo.Clear();
         timerCheck.Enabled = false;

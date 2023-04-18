@@ -35,13 +35,14 @@
       this.listLeft = new System.Windows.Forms.ListBox();
       this.listCalculations = new System.Windows.Forms.ListBox();
       this.timerCheck = new System.Windows.Forms.Timer(this.components);
+      this.bnClear = new System.Windows.Forms.Button();
       this.statusStrip1.SuspendLayout();
       this.SuspendLayout();
       // 
       // bnTap
       // 
       this.bnTap.Font = new System.Drawing.Font("Verdana", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-      this.bnTap.Location = new System.Drawing.Point(157, 12);
+      this.bnTap.Location = new System.Drawing.Point(73, 12);
       this.bnTap.Name = "bnTap";
       this.bnTap.Size = new System.Drawing.Size(135, 135);
       this.bnTap.TabIndex = 0;
@@ -88,11 +89,23 @@
       // 
       this.timerCheck.Tick += new System.EventHandler(this.timerCheck_Tick);
       // 
+      // bnClear
+      // 
+      this.bnClear.Font = new System.Drawing.Font("Verdana", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+      this.bnClear.Location = new System.Drawing.Point(277, 12);
+      this.bnClear.Name = "bnClear";
+      this.bnClear.Size = new System.Drawing.Size(161, 135);
+      this.bnClear.TabIndex = 4;
+      this.bnClear.Text = "Clear";
+      this.bnClear.UseVisualStyleBackColor = true;
+      this.bnClear.Click += new System.EventHandler(this.bnClear_Click);
+      // 
       // fmMain
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(631, 384);
+      this.Controls.Add(this.bnClear);
       this.Controls.Add(this.listCalculations);
       this.Controls.Add(this.listLeft);
       this.Controls.Add(this.statusStrip1);
@@ -115,6 +128,7 @@
     private System.Windows.Forms.ListBox listLeft;
     private System.Windows.Forms.ListBox listCalculations;
     private System.Windows.Forms.Timer timerCheck;
+    private System.Windows.Forms.Button bnClear;
   }
 }
 
